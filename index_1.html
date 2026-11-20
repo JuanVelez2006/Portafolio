@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- ✏️ EDITA: título y descripción que aparecen en Google y al compartir el enlace -->
+  <title>Juan Manuel Vélez · Desarrollador Full Stack Junior</title>
+  <meta name="description" content="Portafolio de Juan Manuel Vélez Osorno, aprendiz del Tecnólogo en Análisis y Desarrollo de Software del SENA. React Native, Node.js, Express y PostgreSQL." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-2: #161b22;
+      --line: #263040;
+      --text: #e6edf3;
+      --muted: #9aa7b4;
+      --accent: #39a900;      /* verde SENA */
+      --accent-2: #7ee04a;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1080px, 92%); margin: 0 auto; }
+    h1, h2, h3 { font-family: "Space Grotesk", sans-serif; line-height: 1.15; }
+    .mono { font-family: "JetBrains Mono", monospace; font-size: .85rem; color: var(--accent-2); }
+
+    /* Navegación */
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(13,17,23,.85); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    nav .wrap { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+    .logo { font-family: "Space Grotesk"; font-weight: 700; font-size: 1.1rem; }
+    .logo span { color: var(--accent-2); }
+    nav ul { display: flex; gap: 1.6rem; list-style: none; font-size: .92rem; color: var(--muted); }
+    nav ul a:hover { color: var(--text); }
+
+    /* Hero */
+    .hero { padding: 96px 0 80px; }
+    .hero .wrap { display: grid; grid-template-columns: 1.5fr 1fr; gap: 3rem; align-items: center; }
+    .badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      border: 1px solid var(--line); background: var(--bg-2);
+      padding: .35rem .85rem; border-radius: 999px; font-size: .85rem; color: var(--muted);
+      margin-bottom: 1.4rem;
+    }
+    .badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 10px var(--accent-2); }
+    .hero h1 { font-size: clamp(2.4rem, 5.5vw, 4rem); margin-bottom: 1rem; }
+    .hero h1 em { font-style: normal; color: var(--accent-2); }
+    .hero p.lead { font-size: 1.12rem; color: var(--muted); max-width: 560px; margin-bottom: 2rem; }
+    .btns { display: flex; gap: .9rem; flex-wrap: wrap; }
+    .btn {
+      padding: .8rem 1.4rem; border-radius: 10px; font-weight: 600; font-size: .95rem;
+      border: 1px solid var(--line); transition: transform .15s, border-color .15s, background .15s;
+    }
+    .btn:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .btn.primary:hover { background: #2f8c00; }
+    .code {
+      background: var(--bg-2); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+      border-radius: var(--radius); padding: 1.6rem 1.8rem; overflow-x: auto;
+      font-family: "JetBrains Mono", monospace; font-size: .88rem; line-height: 1.8; color: var(--text);
+    }
+    .code .c { color: #6b7785; }
+    .code .k { color: #ff7b72; }
+    .code .s { color: var(--accent-2); }
+
+    /* Secciones */
+    section { padding: 80px 0; border-top: 1px solid var(--line); scroll-margin-top: 64px; }
+    .sec-head { margin-bottom: 2.5rem; }
+    .sec-head h2 { font-size: clamp(1.8rem, 3.5vw, 2.4rem); margin-top: .3rem; }
+
+    /* Sobre mí */
+    .about { display: grid; grid-template-columns: 1.4fr 1fr; gap: 3rem; }
+    .about p { color: var(--muted); margin-bottom: 1rem; font-size: 1.05rem; }
+    .about p strong { color: var(--text); font-weight: 600; }
+    .facts { display: grid; gap: .8rem; }
+    .fact { background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.2rem; }
+    .fact small { color: var(--muted); font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; }
+    .fact div { font-weight: 600; }
+
+    /* Proyectos */
+    .featured {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: center;
+      background: linear-gradient(135deg, #13241a 0%, var(--bg-2) 60%);
+      border: 1px solid #2c4a2c; border-radius: 20px; padding: 2.5rem; margin-bottom: 1.5rem;
+    }
+    .featured h3 { font-size: 2rem; margin: .4rem 0 .8rem; }
+    .featured p { color: var(--muted); margin-bottom: 1.2rem; }
+    .featured ul { list-style: none; display: grid; gap: .5rem; margin-bottom: 1.5rem; }
+    .featured li { padding-left: 1.4rem; position: relative; color: var(--text); font-size: .96rem; }
+    .featured li::before { content: "→"; position: absolute; left: 0; color: var(--accent-2); }
+
+    /* Mockup de teléfono para OnlyBus */
+    .phone {
+      justify-self: center; width: 230px; height: 450px; border-radius: 36px;
+      background: #0a0e13; border: 8px solid #222b36; padding: 18px 14px;
+      box-shadow: 0 30px 60px rgba(0,0,0,.5); display: flex; flex-direction: column; gap: 10px;
+    }
+    .phone .bar { width: 70px; height: 6px; background: #222b36; border-radius: 9px; margin: 0 auto 6px; }
+    .phone .title { font-family: "Space Grotesk"; font-weight: 700; font-size: 1.15rem; }
+    .phone .title span { color: var(--accent-2); }
+    .phone .map {
+      flex: 1; border-radius: 16px; position: relative; overflow: hidden;
+      background:
+        linear-gradient(90deg, transparent 48%, #1f2a36 48%, #1f2a36 52%, transparent 52%),
+        linear-gradient(0deg, transparent 30%, #1f2a36 30%, #1f2a36 34%, transparent 34%),
+        linear-gradient(0deg, transparent 68%, #1f2a36 68%, #1f2a36 71%, transparent 71%),
+        #121922;
+    }
+    .phone .bus {
+      position: absolute; top: 26%; left: 40%; background: var(--accent); color: #fff;
+      font-size: .7rem; font-weight: 700; padding: 3px 7px; border-radius: 6px;
+      animation: drive 6s ease-in-out infinite alternate;
+    }
+    .phone .me { position: absolute; bottom: 22%; left: 46%; width: 14px; height: 14px; border-radius: 50%; background: #3fa9ff; box-shadow: 0 0 0 6px rgba(63,169,255,.25); }
+    @keyframes drive { from { top: 6%; } to { top: 58%; } }
+    .phone .alert { background: var(--bg-2); border: 1px solid #2c4a2c; border-radius: 12px; padding: 10px; font-size: .78rem; }
+    .phone .alert b { color: var(--accent-2); display: block; font-size: .82rem; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+    .card {
+      background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 1.8rem; display: flex; flex-direction: column; transition: border-color .15s, transform .15s;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .card h3 { font-size: 1.3rem; margin: .4rem 0 .7rem; }
+    .card p { color: var(--muted); font-size: .96rem; flex: 1; margin-bottom: 1.2rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.2rem; }
+    .tag { font-size: .78rem; padding: .25rem .6rem; border-radius: 6px; background: #1f2a36; color: #c9d4df; }
+    .link { color: var(--accent-2); font-weight: 600; font-size: .92rem; }
+    .link:hover { text-decoration: underline; }
+
+    /* Habilidades */
+    .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.2rem; }
+    .skill-box { background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem; }
+    .skill-box h3 { font-size: 1rem; margin-bottom: .9rem; color: var(--muted); font-family: "Inter"; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; font-size: .8rem; }
+    .soft { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.2rem; margin-top: 1.2rem; }
+    .soft div { border-left: 3px solid var(--accent); padding: .3rem 0 .3rem 1rem; }
+    .soft b { display: block; }
+    .soft span { color: var(--muted); font-size: .92rem; }
+
+    /* Formación */
+    .timeline { display: grid; gap: 1rem; }
+    .t-item {
+      display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: start;
+      background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem 1.6rem;
+    }
+    .t-item h3 { font-size: 1.15rem; margin-bottom: .2rem; }
+    .t-item p { color: var(--muted); font-size: .94rem; }
+    .t-item .when { font-family: "JetBrains Mono"; font-size: .85rem; color: var(--accent-2); white-space: nowrap; }
+
+    /* Contacto */
+    .contact { text-align: center; }
+    .contact h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 1rem; }
+    .contact p { color: var(--muted); max-width: 560px; margin: 0 auto 2rem; font-size: 1.05rem; }
+    .contact .btns { justify-content: center; }
+
+    /* Mini juego */
+    .game-intro { color: var(--muted); max-width: 680px; margin-top: .8rem; }
+    .game-intro b { color: var(--text); }
+    .game { background: var(--bg-2); border: 1px solid var(--line); border-radius: 20px; padding: 1.4rem; text-align: center; }
+    .hud { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .6rem; font-size: .95rem; color: var(--muted); margin-bottom: 1rem; }
+    .hud b { color: var(--text); }
+    #g-canvas { width: 100%; height: auto; border-radius: 12px; background: #0a0e13; display: block; touch-action: manipulation; }
+    .g-msg { min-height: 1.6em; margin: 1rem 0; font-weight: 600; }
+    .g-msg b { color: var(--accent-2); }
+    .g-btn { font-size: 1.1rem; padding: 1rem 2.6rem; cursor: pointer; font-family: inherit; }
+    .g-btn:active { transform: scale(.96); }
+
+    footer { border-top: 1px solid var(--line); padding: 28px 0; color: var(--muted); font-size: .88rem; text-align: center; }
+
+    /* Responsive */
+    @media (max-width: 820px) {
+      nav ul { display: none; }
+      .hero { padding-top: 56px; }
+      .hero .wrap, .about, .featured { grid-template-columns: 1fr; }
+      .code { font-size: .78rem; padding: 1.2rem; }
+      .featured { padding: 1.6rem; }
+      .t-item { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="wrap">
+      <!-- ✏️ EDITA: tus iniciales o tu marca -->
+      <a href="#" class="logo">juan<span>.dev</span></a>
+      <ul>
+        <li><a href="#sobre-mi">Sobre mí</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#habilidades">Habilidades</a></li>
+        <li><a href="#formacion">Formación</a></li>
+        <li><a href="#juego">Juego</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero">
+    <div class="wrap">
+      <div>
+        <!-- ✏️ EDITA: tu estado actual -->
+        <div class="badge">Listo para iniciar prácticas · SENA</div>
+        <h1>Hola, soy Juan Manuel.<br />Construyo apps <em>web y móviles</em>.</h1>
+        <p class="lead">
+          Desarrollador full stack junior, aprendiz del Tecnólogo en Análisis y Desarrollo de Software del SENA.
+          Trabajo con React Native, Node.js, Express y PostgreSQL, y me gusta entregar código ordenado y documentado.
+        </p>
+        <div class="btns">
+          <a href="#proyectos" class="btn primary">Ver mis proyectos</a>
+          <!-- ✏️ EDITA: cambia TU-USUARIO por tu usuario de GitHub -->
+          <a href="https://github.com/TU-USUARIO" target="_blank" rel="noopener" class="btn">GitHub</a>
+          <a href="mailto:314735475a@gmail.com" class="btn">Escríbeme</a>
+        </div>
+      </div>
+      <!-- ✏️ EDITA: tarjeta de código con tus datos -->
+      <pre class="code" aria-hidden="true"><span class="c">// juan.js</span>
+<span class="k">const</span> juan = {
+  rol: <span class="s">"Full Stack Junior"</span>,
+  stack: [<span class="s">"React Native"</span>, <span class="s">"Node.js"</span>,
+          <span class="s">"Express"</span>, <span class="s">"PostgreSQL"</span>],
+  proyecto: <span class="s">"OnlyBus"</span>,
+  ubicacion: <span class="s">"Itagüí, Antioquia"</span>,
+  listoParaPracticas: <span class="k">true</span>
+};</pre>
+    </div>
+  </header>
+
+  <!-- ===================== SOBRE MÍ ===================== -->
+  <section id="sobre-mi">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="mono">// sobre mí</div>
+        <h2>Aprendo rápido y construyo cosas que funcionan</h2>
+      </div>
+      <div class="about">
+        <div>
+          <!-- ✏️ EDITA: tu perfil profesional -->
+          <p>
+            Estoy en el <strong>último trimestre lectivo</strong> del Tecnólogo en Análisis y Desarrollo de Software
+            en el SENA, Centro Tecnológico del Mobiliario. Con mi equipo construí <strong>OnlyBus</strong>, una app móvil
+            de seguimiento de buses, donde me encargué de gran parte del backend, la autenticación y el panel de administrador.
+          </p>
+          <p>
+            Me interesa el desarrollo web y móvil de punta a punta: desde diseñar la base de datos y la API hasta
+            dejar un manual que cualquier usuario pueda entender. Busco un equipo donde aportar desde el primer día
+            y seguir creciendo.
+          </p>
+        </div>
+        <div class="facts">
+          <div class="fact"><small>Ubicación</small><div>Itagüí, Antioquia</div></div>
+          <div class="fact"><small>Etapa productiva</small><div>Feb – Ago 2027 · Valle de Aburrá</div></div>
+          <div class="fact"><small>Enfoque</small><div>Full stack · Web y móvil</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROYECTOS ===================== -->
+  <section id="proyectos">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="mono">// proyectos</div>
+        <h2>Lo que he construido</h2>
+      </div>
+
+      <!-- Proyecto destacado -->
+      <article class="featured">
+        <div>
+          <div class="mono">Proyecto principal · Formato Integral SENA</div>
+          <h3>OnlyBus</h3>
+          <!-- ✏️ EDITA: descripción de tu app -->
+          <p>App móvil para seguir buses en tiempo real y recibir una alerta cuando tu bus está cerca. Así no esperas de más en el paradero.</p>
+          <ul>
+            <li>Autenticación con JWT y middleware de protección de rutas</li>
+            <li>CRUD de rutas favoritas y sistema de alertas de proximidad</li>
+            <li>Base de datos PostgreSQL con Prisma ORM y panel de administrador</li>
+            <li>Trabajo en equipo con ramas en GitHub y manual de usuario en PDF</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">React Native</span><span class="tag">Expo</span><span class="tag">Node.js</span>
+            <span class="tag">Express</span><span class="tag">Prisma</span><span class="tag">PostgreSQL</span><span class="tag">JWT</span>
+          </div>
+          <!-- ✏️ EDITA: enlace al repositorio de OnlyBus -->
+          <a href="https://github.com/TU-USUARIO" target="_blank" rel="noopener" class="link">Ver repositorio →</a>
+        </div>
+        <div class="phone" aria-hidden="true">
+          <div class="bar"></div>
+          <div class="title">Only<span>Bus</span></div>
+          <div class="map"><div class="bus">🚌 R-12</div><div class="me"></div></div>
+          <div class="alert"><b>¡Tu bus está cerca!</b>Ruta 12 llega en 3 min</div>
+        </div>
+      </article>
+
+      <div class="grid">
+        <article class="card">
+          <div class="mono">Investigación</div>
+          <h3>Fallos de reproducción de video en Kick</h3>
+          <p>Analicé por qué algunos videos grabados mostraban pantallas negras o archivos dañados, y propuse un flujo de procesamiento con validaciones, reintentos automáticos y distribución por CDN.</p>
+          <div class="tags"><span class="tag">Análisis de problemas</span><span class="tag">FFmpeg</span><span class="tag">CDN</span></div>
+          <!-- ✏️ EDITA: enlace al documento o repositorio -->
+          <a href="https://github.com/TU-USUARIO" target="_blank" rel="noopener" class="link">Ver más →</a>
+        </article>
+
+        <article class="card">
+          <div class="mono">Python</div>
+          <h3>Sistema de gestión de biblioteca</h3>
+          <p>Aplicación de escritorio para registrar, consultar, editar y eliminar libros, con almacenamiento en archivos.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Tkinter</span><span class="tag">CRUD</span></div>
+          <!-- ✏️ EDITA: enlace al repositorio -->
+          <a href="https://github.com/TU-USUARIO" target="_blank" rel="noopener" class="link">Ver repositorio →</a>
+        </article>
+
+        <article class="card">
+          <div class="mono">Python</div>
+          <h3>Formulario de registro</h3>
+          <p>Interfaz gráfica con validación de campos y guardado de datos, pensada para que el usuario no pueda enviar información incompleta.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Tkinter</span><span class="tag">Flask</span></div>
+          <!-- ✏️ EDITA: enlace al repositorio -->
+          <a href="https://github.com/TU-USUARIO" target="_blank" rel="noopener" class="link">Ver repositorio →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HABILIDADES ===================== -->
+  <section id="habilidades">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="mono">// habilidades</div>
+        <h2>Con qué trabajo</h2>
+      </div>
+      <!-- ✏️ EDITA: tus tecnologías -->
+      <div class="skills">
+        <div class="skill-box"><h3>Lenguajes</h3><div class="tags"><span class="tag">JavaScript</span><span class="tag">Python</span><span class="tag">PHP</span><span class="tag">SQL</span></div></div>
+        <div class="skill-box"><h3>Móvil</h3><div class="tags"><span class="tag">React Native</span><span class="tag">Expo</span></div></div>
+        <div class="skill-box"><h3>Backend</h3><div class="tags"><span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">Flask</span><span class="tag">API REST</span><span class="tag">JWT</span></div></div>
+        <div class="skill-box"><h3>Bases de datos</h3><div class="tags"><span class="tag">PostgreSQL</span><span class="tag">Prisma ORM</span></div></div>
+        <div class="skill-box"><h3>Herramientas</h3><div class="tags"><span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">VS Code</span><span class="tag">Tkinter</span></div></div>
+      </div>
+      <div class="soft">
+        <div><b>Trabajo en equipo</b><span>Repositorios compartidos y tareas por módulos</span></div>
+        <div><b>Resolución de problemas</b><span>Depuración y análisis de fallos reales</span></div>
+        <div><b>Aprendizaje autónomo</b><span>Nuevas tecnologías con proyectos prácticos</span></div>
+        <div><b>Comunicación</b><span>Documentación clara para usuarios no técnicos</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FORMACIÓN ===================== -->
+  <section id="formacion">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="mono">// formación</div>
+        <h2>Formación académica</h2>
+      </div>
+      <!-- ✏️ EDITA: tus estudios -->
+      <div class="timeline">
+        <div class="t-item">
+          <div><h3>Tecnólogo en Análisis y Desarrollo de Software</h3><p>SENA · Centro Tecnológico del Mobiliario, Medellín · Ficha 3230441</p></div>
+          <div class="when">2025 – 2027</div>
+        </div>
+        <div class="t-item">
+          <div><h3>Técnico en Conservación de Recursos Naturales</h3><p>SENA · Caldas · 6 semestres aprobados</p></div>
+          <div class="when">Finalizado</div>
+        </div>
+        <div class="t-item">
+          <div><h3>Bachiller</h3><p>I.E. Concejo Municipal de Itagüí</p></div>
+          <div class="when">Nov 2024</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MINI JUEGO ===================== -->
+  <section id="juego">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="mono">// mini juego</div>
+        <h2>¡Para el bus!</h2>
+        <p class="game-intro">Los buses de OnlyBus pasan por el paradero. Toca <b>PARAR</b> (o la barra espaciadora) cuando el bus esté dentro de la zona verde. Si lo paras en el centro ganas más puntos. Cada bus va más rápido y tienes 3 vidas.</p>
+      </div>
+      <div class="game">
+        <div class="hud">
+          <span>Puntos: <b id="g-score">0</b></span>
+          <span>Vidas: <b id="g-lives">❤️❤️❤️</b></span>
+          <span>Récord: <b id="g-best">0</b></span>
+        </div>
+        <canvas id="g-canvas" width="900" height="260"></canvas>
+        <div class="g-msg" id="g-msg">Presiona <b>PARAR</b> para empezar</div>
+        <button class="btn primary g-btn" id="g-btn">PARAR 🛑</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACTO ===================== -->
+  <section id="contacto" class="contact">
+    <div class="wrap">
+      <div class="mono">// contacto</div>
+      <h2>¿Hablamos?</h2>
+      <p>Estoy listo para iniciar mi etapa productiva. Si tu empresa busca un aprendiz en desarrollo web o móvil, escríbeme.</p>
+      <!-- ✏️ EDITA: tus datos de contacto -->
+      <div class="btns">
+        <a href="mailto:314735475a@gmail.com" class="btn primary">314735475a@gmail.com</a>
+        <a href="https://github.com/TU-USUARIO" target="_blank" rel="noopener" class="btn">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">© 2026 Juan Manuel Vélez Osorno · Hecho con HTML y CSS · Publicado en GitHub Pages</div>
+  </footer>
+
+  <script>
+    // Mini juego "¡Para el bus!" — HTML5 Canvas, sin librerías
+    (() => {
+      const cv = document.getElementById("g-canvas"), ctx = cv.getContext("2d");
+      const $ = id => document.getElementById(id);
+      const W = cv.width, H = cv.height, ROAD_Y = 150, BUS_W = 130, BUS_H = 62;
+      const STOP_X = 620, ZONE = 70;                 // centro y medio ancho de la zona del paradero
+      const routes = ["R-12", "R-7", "R-30", "R-45", "R-3", "R-21"];
+      let state = "idle", score = 0, lives = 3, speed, bus, flash = null, best = 0, timer = 0;
+
+      try { best = +localStorage.getItem("onlybus-best") || 0; } catch (e) {}
+      $("g-best").textContent = best;
+
+      const newBus = () => ({ x: -BUS_W, route: routes[Math.floor(Math.random() * routes.length)], stopped: false });
+      const hud = () => { $("g-score").textContent = score; $("g-lives").textContent = "❤️".repeat(lives) + "🖤".repeat(3 - lives); };
+      const msg = t => $("g-msg").innerHTML = t;
+
+      function start() { score = 0; lives = 3; speed = 4; bus = newBus(); state = "play"; hud(); msg("¡Atento al paradero!"); }
+
+      function press() {
+        if (state === "idle" || state === "over") return start();
+        if (state !== "play" || bus.stopped) return;
+        const center = bus.x + BUS_W / 2, dist = Math.abs(center - STOP_X);
+        bus.stopped = true;
+        if (dist <= ZONE) {
+          const pts = dist < 12 ? 100 : dist < 35 ? 50 : 20;
+          score += pts;
+          flash = { text: pts === 100 ? "¡PERFECTO! +100" : pts === 50 ? "¡Bien! +50" : "Justo +20", color: "#7ee04a", t: 50 };
+          msg(`Subiste a la ruta <b>${bus.route}</b> 🚌`);
+        } else lose("¡Lo paraste lejos del paradero!");
+        next();
+      }
+
+      function lose(text) {
+        lives--; flash = { text: "−1 vida", color: "#ff7b72", t: 50 }; msg(text);
+        if (lives <= 0) {
+          state = "over";
+          if (score > best) { best = score; try { localStorage.setItem("onlybus-best", best); } catch (e) {} }
+          $("g-best").textContent = best;
+          msg(`Fin del recorrido: <b>${score} puntos</b>. Presiona PARAR para jugar otra vez`);
+        }
+        hud();
+      }
+
+      function next() { hud(); timer = 45; }
+
+      function update() {
+        if (flash && --flash.t <= 0) flash = null;
+        if (state !== "play") return;
+        if (bus.stopped) { if (--timer <= 0) { bus = newBus(); speed = Math.min(speed + 0.6, 14); } return; }
+        bus.x += speed;
+        if (bus.x > W) { bus.stopped = true; lose("¡Se te fue el bus! 😩"); if (state === "play") next(); }
+      }
+
+      function roundRect(x, y, w, h, r, fill) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); ctx.fillStyle = fill; ctx.fill(); }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        // edificios de fondo
+        for (let i = 0; i < 12; i++) roundRect(i * 80 + 5, 40 + (i * 37 % 50), 60, 120, 4, "#121922");
+        // carretera
+        ctx.fillStyle = "#1a222c"; ctx.fillRect(0, ROAD_Y, W, 80);
+        ctx.strokeStyle = "#3a4656"; ctx.setLineDash([24, 18]); ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(0, ROAD_Y + 72); ctx.lineTo(W, ROAD_Y + 72); ctx.stroke(); ctx.setLineDash([]);
+        // zona del paradero
+        ctx.fillStyle = "rgba(57,169,0,.18)"; ctx.fillRect(STOP_X - ZONE, ROAD_Y - 10, ZONE * 2, 90);
+        ctx.fillStyle = "rgba(126,224,74,.55)"; ctx.fillRect(STOP_X - 1, ROAD_Y - 10, 2, 90);
+        // señal de paradero
+        ctx.fillStyle = "#9aa7b4"; ctx.fillRect(STOP_X + ZONE + 14, 70, 4, 80);
+        roundRect(STOP_X + ZONE - 6, 46, 44, 30, 6, "#39a900");
+        ctx.fillStyle = "#fff"; ctx.font = "bold 13px Inter, sans-serif"; ctx.textAlign = "center";
+        ctx.fillText("BUS", STOP_X + ZONE + 16, 66);
+        // persona esperando
+        ctx.fillStyle = "#3fa9ff"; ctx.beginPath(); ctx.arc(STOP_X + ZONE + 40, 112, 8, 0, 7); ctx.fill();
+        roundRect(STOP_X + ZONE + 33, 122, 14, 26, 5, "#3fa9ff");
+        // bus
+        if (bus && state !== "idle") {
+          const x = bus.x, y = ROAD_Y + 2;
+          roundRect(x, y, BUS_W, BUS_H, 10, "#39a900");
+          roundRect(x + BUS_W - 22, y + 8, 16, 24, 4, "#c8f7a8");          // parabrisas
+          for (let i = 0; i < 4; i++) roundRect(x + 10 + i * 26, y + 8, 20, 18, 3, "#0d1117");
+          ctx.fillStyle = "#fff"; ctx.font = "bold 14px Inter, sans-serif";
+          ctx.fillText(bus.route, x + 52, y + 46);
+          ctx.fillStyle = "#0d1117";
+          [x + 26, x + BUS_W - 28].forEach(cx => { ctx.beginPath(); ctx.arc(cx, y + BUS_H, 11, 0, 7); ctx.fill(); });
+          ctx.fillStyle = "#9aa7b4";
+          [x + 26, x + BUS_W - 28].forEach(cx => { ctx.beginPath(); ctx.arc(cx, y + BUS_H, 4, 0, 7); ctx.fill(); });
+        }
+        // texto flotante
+        if (flash) {
+          ctx.globalAlpha = Math.min(1, flash.t / 20);
+          ctx.fillStyle = flash.color; ctx.font = "bold 28px 'Space Grotesk', sans-serif";
+          ctx.fillText(flash.text, W / 2, 34 - (50 - flash.t) * 0.3 + 20);
+          ctx.globalAlpha = 1;
+        }
+        if (state === "idle" || state === "over") {
+          ctx.fillStyle = "rgba(10,14,19,.65)"; ctx.fillRect(0, 0, W, H);
+          ctx.fillStyle = "#e6edf3"; ctx.font = "bold 30px 'Space Grotesk', sans-serif";
+          ctx.fillText(state === "idle" ? "🚌 ¡Para el bus!" : `Fin del recorrido · ${score} pts`, W / 2, H / 2);
+        }
+      }
+
+      (function loop() { update(); draw(); requestAnimationFrame(loop); })();
+      $("g-btn").addEventListener("click", press);
+      cv.addEventListener("pointerdown", press);
+      document.addEventListener("keydown", e => {
+        if (e.code !== "Space") return;
+        const r = cv.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < innerHeight) { e.preventDefault(); press(); }  // solo si el juego está en pantalla
+      });
+    })();
+  </script>
+
+</body>
+</html>
